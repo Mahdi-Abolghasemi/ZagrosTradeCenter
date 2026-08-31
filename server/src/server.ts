@@ -4,6 +4,7 @@ require('dotenv').config();
 const bodyParser = require("body-parser");
 import objConnection from "./dbConnection";
 const cors = require('cors');
+import routers from "./routers";
 
 
 async function start() {
@@ -24,6 +25,9 @@ async function start() {
         server.use(express.json());
         server.use(express.urlencoded({ extended: true }));
         server.use(bodyParser.json());
+
+        //{api/controller_name/action_name}
+        server.use("/api", routers);
 
 
         server.listen(process.env.SERVER_PORT, (): void => {
