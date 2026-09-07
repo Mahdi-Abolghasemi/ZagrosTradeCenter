@@ -53,9 +53,7 @@ export default function Register() {
         else {
             setValidated(true);
             let success: boolean = false;
-            console.log(`data is: ${JSON.stringify(registerForm)}`)
             await objAuth_service.Register(registerForm).then(res => success = res);
-            console.log(`page result is: ${success}`);
 
             if (success) {
                 setError({ message: "", show: false });
@@ -125,21 +123,13 @@ export default function Register() {
                             </Form.Group>
                         </Col>
                     </Row>
-                </Form>
-                <CardText>
                     <Stack direction="horizontal" className="justify-content-center mb-2">
                         <Button variant="primary" className="m-1" type="button" onClick={register}>Register</Button>
                         <Link className="btn btn-secondary" href={"/"}>Cancel</Link>
                     </Stack>
-                    <div
-                        style={{
-                            display: error.show ? "inline" : "none",
-                        }}
-                    >
-                        <p className="bg-danger hover:bg-danger text-white py-1.5 px-2 rounded">
-                            {error.message}
-                        </p>
-                    </div>
+                </Form>
+                <CardText style={{ display: error.show ? "inline" : "none" }} className="bg-danger hover:bg-danger mt-2 text-white py-1.5 px-2 rounded">
+                    {error.message}
                 </CardText>
             </CardBody>
         </Card>

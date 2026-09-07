@@ -42,7 +42,6 @@ export default function Login() {
         else {
             setValidated(true);
             let success: boolean = false;
-            console.log(`data is: ${JSON.stringify(loginForm)}`)
             await objAuth_service.Login(loginForm).then(res => success = res);
 
             if (success) {
@@ -82,16 +81,8 @@ export default function Login() {
                     </Form.Group>
                     <Button variant="primary" type="button" onClick={login}>Login</Button>
                 </Form>
-                <CardText>
-                    <div
-                        style={{
-                            display: error.show ? "inline" : "none",
-                        }}
-                    >
-                        <p className="bg-danger hover:bg-danger mt-2 text-white py-1.5 px-2 rounded">
-                            {error.message}
-                        </p>
-                    </div>
+                <CardText style={{ display: error.show ? "inline" : "none" }} className="bg-danger hover:bg-danger mt-2 text-white py-1.5 px-2 rounded">
+                    {error.message}
                 </CardText>
             </CardBody>
         </Card>
