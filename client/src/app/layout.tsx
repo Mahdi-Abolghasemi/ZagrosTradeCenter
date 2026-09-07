@@ -4,6 +4,7 @@ import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./header";
 import Footer from "./footer";
+import ProtectedRoutes from "./auth/protectedRoutes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
         <Header />
-        {children}
+        <ProtectedRoutes>
+          {children}
+        </ProtectedRoutes>
         <Footer />
       </body>
     </html>

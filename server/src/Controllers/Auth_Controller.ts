@@ -22,7 +22,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
 }
 
 async function registration(req: Request, res: Response): Promise<void> {
-    let result: boolean = false;
+    let result: Auth_Result = <Auth_Result>{};
     await objAuth.Registration(req.body).then(val => result = val);
     res.status(result ? 200 : 500).send(result);
 }

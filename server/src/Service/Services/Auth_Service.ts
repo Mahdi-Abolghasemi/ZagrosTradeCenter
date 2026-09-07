@@ -16,7 +16,7 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
 
     async Login(userName: string, password: string): Promise<Auth_Result> {
         let user: Auth_Model = <Auth_Model>{}
-        let result: Auth_Result = <Auth_Result>{};
+        let result: Auth_Result = new Auth_Result;
         let hashPassword: string = await createHash('sha256').update(password).digest('base64');
         await this.objAuth.Login(userName, hashPassword).then(res => user = res);
 
@@ -30,8 +30,9 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
         return result;
     }
 
-    async Registration(profile: Auth_Model): Promise<boolean> {
-        let result: boolean = false;
+    async Registration(profile: Auth_Model): Promise<Auth_Result> {
+        let repositoryResult: boolean = false;
+        let result: Auth_Result = <Auth_Result>{};
         let hashPassword: string = await createHash('sha256').update(profile.password).digest('base64');
         profile.password = hashPassword;
         profile.role = RoulType_Enum.User;
@@ -40,7 +41,15 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
         await this.objAuth.GetProfile(profile.email).then(res => user = res);
 
         if (!user) {
-            await this.objAuth.Registration(profile).then(res => result = res);
+            await this.objAuth.Registration(profile).then(res => repositoryResult = res);
+
+            if (repositoryResult) {
+                result.success = repositoryResult;
+                result.userName = profile.email;
+                let userName: string = profile.email;
+                let role: string = profile.role;
+                result.token = await jwt.sign({ userName, role }, process.env.JWT_SECRET_KEY, { expiresIn: "1hr" });
+            }
         }
 
         return result;
