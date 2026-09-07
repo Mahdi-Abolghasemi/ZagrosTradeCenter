@@ -15,34 +15,23 @@ routers.put("/changePassword", objAuth.UserOnly, changePassword);
 //******************************************************************* */
 
 async function logIn(req: Request, res: Response): Promise<void> {
-    console.log(`login action is run. ${req.body.userName} , ${req.body.password}`);
-    let result: Auth_Result = <Auth_Result>{};
-    await objAuth.Login(req.body.userName, req.body.password).then(val => result = val);
-    res.status(result.success ? 200 : 401).send(result);
+    await objAuth.Login(req.body.userName, req.body.password).then(val => res.send(val));
 }
 
 async function registration(req: Request, res: Response): Promise<void> {
-    let result: Auth_Result = <Auth_Result>{};
-    await objAuth.Registration(req.body).then(val => result = val);
-    res.status(result ? 200 : 500).send(result);
+    await objAuth.Registration(req.body).then(val => res.send(val));
 }
 
 async function getProfile(req: Request, res: Response): Promise<void> {
-    let result: Auth_Model = <Auth_Model>{};
-    await objAuth.GetProfile(req.body.email).then(val => result = val);
-    res.status(result ? 200 : 500).send(result);
+    await objAuth.GetProfile(req.body.email).then(val => res.send(val));
 }
 
 async function editProfile(req: Request, res: Response): Promise<void> {
-    let result: boolean = false;
-    await objAuth.EditProfile(req.body).then(val => result = val);
-    res.status(result ? 200 : 500).send(result);
+    await objAuth.EditProfile(req.body).then(val => res.send(val));
 }
 
 async function changePassword(req: Request, res: Response): Promise<void> {
-    let result: boolean = false;
-    await objAuth.ChangePassword(req.body.email, req.body.oldPassword, req.body.newPassword).then(val => result = val);
-    res.status(result ? 200 : 500).send(result);
+    await objAuth.ChangePassword(req.body.email, req.body.oldPassword, req.body.newPassword).then(val => res.send(val));
 }
 
 export default routers;
