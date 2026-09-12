@@ -1,6 +1,7 @@
 import { IAuth_Repository } from "../IRepositories/IAuth_Repository";
 import { Auth_Model } from "../../Domain/Model/Auth_Model";
 import objConnection from "../../dbConnection";
+import { ReturnType_Enum } from "../../Domain/Enumration/ReturnType";
 
 export class Auth_Repository implements IAuth_Repository<Auth_Model> {
     async Login(userName: string, hashPassword: string): Promise<Auth_Model> {
@@ -31,11 +32,19 @@ export class Auth_Repository implements IAuth_Repository<Auth_Model> {
         }
     }
 
-    async GetProfile(email: string): Promise<Auth_Model> {
+    async GetProfile(email: string, returnType: string): Promise<Auth_Model> {
         let user: Auth_Model = <Auth_Model>{}
         try {
             const myDb = objConnection.GetDb();
-            await myDb.collection("Users").findOne<Auth_Model>({ "email": email, }, { projection: { _id: 0, email: 1, firstName: 1, lastName: 1 } }).then(res => user = <Auth_Model>res);
+
+            switch (returnType) {
+                case ReturnType_Enum.FullData:
+                    await myDb.collection("Users").findOne<Auth_Model>({ "email": email, }).then(res => user = <Auth_Model>res);
+                    break;
+                case ReturnType_Enum.CustomData:
+                    await myDb.collection("Users").findOne<Auth_Model>({ "email": email, }, { projection: { _id: 0, email: 1, firstName: 1, lastName: 1 } }).then(res => user = <Auth_Model>res);
+                    break;
+            }
 
             return user;
         }
@@ -64,7 +73,6 @@ export class Auth_Repository implements IAuth_Repository<Auth_Model> {
         try {
             const myDb = objConnection.GetDb();
             await myDb.collection("Users").updateOne({ "email": email }, { $set: { "password": hashNewPass } }).then(res => result = res.acknowledged);
-
             return result;
         }
         catch (ex: unknown) {

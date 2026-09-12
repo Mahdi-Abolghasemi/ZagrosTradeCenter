@@ -10,7 +10,7 @@ function ProtectedRoutes({ children }: any) {
     const token: string = cookie.get("TOKEN");
     const pathname = usePathname();
 
-    const url: string[] = [];
+    const url: string[] = ["/auth/changePassword", "/auth/editProfile"];
 
     if (url.includes(pathname)) {
         if (token) {

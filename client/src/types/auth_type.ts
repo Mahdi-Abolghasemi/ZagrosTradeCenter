@@ -17,3 +17,9 @@ export type AuthResult_type = {
     token: string,
 }
 
+export type UserPassword_type = {
+    email: string,
+    oldPassword: string,
+    newPassword: string
+}
+

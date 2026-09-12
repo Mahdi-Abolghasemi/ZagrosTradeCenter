@@ -3,6 +3,7 @@ const routers: Router = require("express").Router();
 import { IAuth_Services } from "../Service/IServices/IAuth_Service";
 import { Auth_Service } from "../Service/Services/Auth_Service";
 import { Auth_Model, Auth_Result } from "../Domain/Model/Auth_Model";
+import { ReturnType_Enum } from "../Domain/Enumration/ReturnType";
 
 const objAuth: IAuth_Services<Auth_Model, Auth_Result> = new Auth_Service();
 
@@ -23,7 +24,7 @@ async function registration(req: Request, res: Response): Promise<void> {
 }
 
 async function getProfile(req: Request, res: Response): Promise<void> {
-    await objAuth.GetProfile(req.body.email).then(val => res.send(val));
+    await objAuth.GetProfile(req.body.email, ReturnType_Enum.CustomData).then(val => res.send(val));
 }
 
 async function editProfile(req: Request, res: Response): Promise<void> {

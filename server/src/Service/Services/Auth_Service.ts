@@ -6,6 +6,7 @@ import { Auth_Repository } from "../../Repository/Repositories/Auth_Repository";
 const { createHash } = require('crypto');
 const jwt = require('jsonwebtoken');
 import { RoulType_Enum } from "../../Domain/Enumration/RoulType_Enum";
+import { ReturnType_Enum } from "../../Domain/Enumration/ReturnType";
 
 export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
     private objAuth: IAuth_Repository<Auth_Model>;
@@ -38,7 +39,7 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
         profile.role = RoulType_Enum.User;
 
         let user: Auth_Model = <Auth_Model>{};
-        await this.objAuth.GetProfile(profile.email).then(res => user = res);
+        await this.GetProfile(profile.email, ReturnType_Enum.CustomData).then(res => user = res);
 
         if (!user) {
             await this.objAuth.Registration(profile).then(res => repositoryResult = res);
@@ -55,9 +56,9 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
         return result;
     }
 
-    async GetProfile(email: string): Promise<Auth_Model> {
+    async GetProfile(email: string, returnType: string): Promise<Auth_Model> {
         let user: Auth_Model = <Auth_Model>{};
-        await this.objAuth.GetProfile(email).then(res => user = res);
+        await this.objAuth.GetProfile(email, returnType).then(res => user = res);
 
         return user;
     }
@@ -72,7 +73,7 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
     async ChangePassword(email: string, oldPassword: string, newPassword: string): Promise<boolean> {
         let result: boolean = false;
         let user: Auth_Model = <Auth_Model>{};
-        await this.GetProfile(email).then(res => user = res);
+        await this.GetProfile(email, ReturnType_Enum.FullData).then(res => user = res);
 
         let hashOldPassword: string = await createHash('sha256').update(oldPassword).digest('base64');
 

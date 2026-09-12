@@ -50,10 +50,10 @@ a {
 
 /************************************************************/
   .bodyHeader {
-    /* background: #1f1d1d;
-    color: white; */
+    background: #1f1d1d;
+    /* color: white; */
     height: 10vh;
-    /* width: 100vw; */
+    /* width: 100vw; **********/
     align-content: center;
     padding-left: 3%;
   }
