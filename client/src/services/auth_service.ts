@@ -49,16 +49,20 @@ export class Auth_service {
     async EditProfile(inputData: Register_type): Promise<boolean> {
         let result: boolean = false;
         const obj_RDS: restDataSource<Register_type, boolean> = new restDataSource("auth");
-        await obj_RDS.Edit(inputData).then(res => result = res);
+        await obj_RDS.Edit(inputData, "editProfile").then(res => result = res);
 
         return result;
     }
 
     async GetProfile(): Promise<Register_type> {
         let result: Register_type = <Register_type>{};
-        let email: string = await this.cookie.get("USER_NAME");
-        const obj_RDS: restDataSource<string, Register_type> = new restDataSource("auth");
-        await obj_RDS.Get(email).then(res => result = res);
+        type costom = {
+            email: string
+        }
+        let input: costom = { email: await this.cookie.get("USER_NAME") };
+
+        const obj_RDS: restDataSource<costom, Register_type> = new restDataSource("auth");
+        await obj_RDS.Get(input, "getProfile").then(res => result = res);
 
         return result;
     }

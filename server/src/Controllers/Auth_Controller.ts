@@ -4,14 +4,16 @@ import { IAuth_Services } from "../Service/IServices/IAuth_Service";
 import { Auth_Service } from "../Service/Services/Auth_Service";
 import { Auth_Model, Auth_Result } from "../Domain/Model/Auth_Model";
 import { ReturnType_Enum } from "../Domain/Enumration/ReturnType";
+import Authorization from "../Middlewares/Authorization_Middleware";
 
 const objAuth: IAuth_Services<Auth_Model, Auth_Result> = new Auth_Service();
+const objAuthorization: Authorization = new Authorization();
 
 routers.post("/logIn", logIn);
 routers.post("/registration", registration);
-routers.post("/getProfile", objAuth.UserOnly, getProfile);
-routers.put("/editProfile", objAuth.UserOnly, editProfile);
-routers.put("/changePassword", objAuth.UserOnly, changePassword);
+routers.post("/getProfile", objAuthorization.UserOnly, getProfile);
+routers.put("/editProfile", objAuthorization.UserOnly, editProfile);
+routers.put("/changePassword", objAuthorization.UserOnly, changePassword);
 
 //******************************************************************* */
 

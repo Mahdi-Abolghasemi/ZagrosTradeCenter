@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from "express";
 import { IAuth_Services } from "../IServices/IAuth_Service";
 import { Auth_Model, Auth_Result } from "../../Domain/Model/Auth_Model";
 import { IAuth_Repository } from "../../Repository/IRepositories/IAuth_Repository";
@@ -83,26 +82,5 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
         }
 
         return result;
-    }
-
-    UserOnly(req: Request, res: Response, next: NextFunction): void {
-        let token: string | undefined = req.headers.authorization;
-
-        if (!token) {
-            res.status(401).send("Token missing.");
-        }
-
-        try {
-            let decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
-            if (decode.role === RoulType_Enum.User) {
-                next();
-            }
-            else {
-                res.status(403).send("Access denied");
-            }
-        }
-        catch (ex: unknown) {
-            res.status(403).send("Invalid or expired token");
-        }
     }
 }

@@ -4,5 +4,14 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "module": "commonjs"
+    },
+    "include":["src/**/*.ts"],
+    "exclude":["upload","dist","node_modules"],
+    "watchOptions":{
+        "excludeDirectories":[
+            "**/node_modules",
+            "**/upload",
+            "**/dist"
+        ]
     }
 }

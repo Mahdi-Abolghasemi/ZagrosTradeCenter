@@ -7,45 +7,76 @@ export class restDataSource<T, U> {
     private token: string;
 
     constructor(controllerName: string) {
-        this.url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_ADDRESS}/${controllerName}`;
+        this.url = `${process.env.NEXT_PUBLIC_BACKEND_SERVER_ADDRESS}/${controllerName}/`;
         this.cookie = new Cookies();
         this.token = this.cookie.get("TOKEN") !== "" ? this.cookie.get("TOKEN") : "";
     }
 
     async Registration(_data: T): Promise<U> {
         let result: U = <U>{};
-        await Axios.request({ method: "post", headers: { 'Content-Type': 'application/json' }, url: this.url + "/registration", data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        await Axios.request({ method: "post", headers: { 'Content-Type': 'application/json' }, url: this.url + "registration", data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
         return result;
     }
 
     async Login(_data: T): Promise<U> {
         let result: U = <U>{};
-        await Axios.request({ method: "post", headers: { 'Content-Type': 'application/json' }, url: this.url + "/logIn", data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        await Axios.request({ method: "post", headers: { 'Content-Type': 'application/json' }, url: this.url + "logIn", data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
         return result;
     }
 
     async ChangePassword(_data: T): Promise<boolean> {
         let result: boolean = false;
-        await Axios.request({ method: "put", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + "/changePassword", data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        await Axios.request({ method: "put", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + "changePassword", data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
         return result;
     }
 
-    async Edit(_data: T): Promise<boolean> {
+    async Edit(_data: T, actionName: string): Promise<boolean> {
         let result: boolean = false;
-        await Axios.request({ method: "put", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + "/editProfile", data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        await this.SendRequest("put", this.url + actionName, _data).then(res => result = res);
         return result;
     }
 
-    async Get(email: T): Promise<U> {
+    async Get(_data: T, actionName: string): Promise<U> {
+        let result: U = <U>{}
+        await Axios.request({ method: "post", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + actionName, data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        return result;
+    }
+
+    async GetByEmail(_data: T, actionName: string): Promise<U> {
+        let result: U = <U>[];
+        await Axios.request({ method: "post", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + actionName, data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        return result;
+    }
+
+    async Add(_data: T, actionName: string): Promise<boolean> {
+        let result: boolean = false;
+        await this.SendRequest("post", this.url + actionName, _data).then(res => result = res);
+        return result;
+    }
+
+    async Delete(_data: T, actionName: string): Promise<boolean> {
+        let result: boolean = false;
+        await this.SendRequest("post", this.url + actionName, _data).then(res => result = res);
+        return result;
+    }
+
+    async UploadImage(_data: T, actionName: string): Promise<U> {
         let result: U = <U>{};
-        await Axios.request({ method: "post", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + "/getProfile", data: { "email": email } }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        await Axios.request({ method: "post", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + actionName, data: _data })
+            .then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
         return result;
     }
 
-    // private async SendRequest(_method: string, _url: string, _data?: T): Promise<boolean> {
-    //     let result: boolean = false;
-    //     await Axios.request({ method: _method, headers: !this.token ? {} : { Authorization: this.token }, url: _url, data: _data })
-    //         .then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
-    //     return result
-    // }
+    async RemoveUploadFile(_data: T, actionName: string): Promise<boolean> {
+        let result: boolean = false;
+        await this.SendRequest("post", this.url + actionName, _data).then(res => result = res);
+        return result;
+    }
+
+    private async SendRequest(_method: string, _url: string, _data?: T): Promise<boolean> {
+        let result: boolean = false;
+        await Axios.request({ method: _method, headers: !this.token ? {} : { Authorization: this.token }, url: _url, data: _data })
+            .then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        return result;
+    }
 }
