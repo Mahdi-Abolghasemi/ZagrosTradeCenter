@@ -9,6 +9,14 @@ export class Case_service {
         this.cookie = new Cookies();
     }
 
+    async GetAll(): Promise<Case_type[]> {
+        let result: Case_type[] = [];
+        const objRDS: restDataSource<null, Case_type> = new restDataSource("case");
+        await objRDS.GetAll("getAll").then(res => result = res);
+
+        return result;
+    }
+
     async Get(_id: string): Promise<Case_type> {
         let result: Case_type = <Case_type>{}
         type inputValue = {

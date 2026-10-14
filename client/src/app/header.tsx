@@ -26,7 +26,7 @@ export default function Header() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/" className="text-white">List of case</Nav.Link>
+                            <Nav.Link href="/cases" className="text-white">List of case</Nav.Link>
                             <Nav.Link href="/auth/login" className="text-white">Login</Nav.Link>
                             <Nav.Link href="/auth/register" className="text-white">Register</Nav.Link>
                         </Nav>
@@ -43,7 +43,7 @@ export default function Header() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/" className="text-white">List of case</Nav.Link>
+                            <Nav.Link href="/cases" className="text-white">List of case</Nav.Link>
                             <NavDropdown title={<span className="text-white my-auto">Profile</span>} id="basic-nav-dropdown" data-bs-theme="dark">
                                 <NavDropdown.Item href="/auth/changePassword" className="text-white">Change password</NavDropdown.Item>
                                 <NavDropdown.Item href="/auth/editProfile" className="text-white">
