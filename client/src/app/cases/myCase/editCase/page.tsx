@@ -159,7 +159,7 @@ export default function EditCase() {
                     </Row>
                     <Stack direction="horizontal" className="justify-content-center mb-2">
                         <Button variant="primary" className="m-1" type="button" onClick={save}>Save</Button>
-                        <Link className="btn btn-secondary" href={"/cases/myCase"} onClick={removeUploadFile}>Cancel</Link>
+                        <Link className="btn btn-secondary" href={"/cases/myCase"}>Cancel</Link>
                     </Stack>
                 </Form>
             </CardBody>
