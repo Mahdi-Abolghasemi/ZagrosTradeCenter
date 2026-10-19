@@ -15,6 +15,7 @@ export class Favority_Service implements IFavority_Service<Favority_Model, Favor
     async Add(newFavority: Favority_Model): Promise<boolean> {
         let result: boolean = false;
         newFavority._id = new ObjectId();
+        newFavority.caseId = new ObjectId(newFavority.caseId);
         await this.objFavority.Add(newFavority).then(res => result = res);
 
         return result;
