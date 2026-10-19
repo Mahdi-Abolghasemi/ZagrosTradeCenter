@@ -38,7 +38,7 @@ export class restDataSource<T, U> {
 
     async GetAll(actionName: string): Promise<U[]> {
         let result: U[] = [];
-        await Axios.request({ method: "get", headers: { 'Content-Type': 'application/json' }, url: this.url + actionName }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        await Axios.request({ method: "get", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + actionName }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
         return result;
     }
 

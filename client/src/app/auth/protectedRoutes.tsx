@@ -15,7 +15,8 @@ function ProtectedRoutes({ children }: any) {
         "/auth/editProfile",
         "/cases/myCase",
         "/cases/myCase/newCase",
-        "/cases/myCase/editCase"
+        "/cases/myCase/editCase",
+        "/favority/myFavority"
     ];
 
     if (url.includes(pathname)) {
