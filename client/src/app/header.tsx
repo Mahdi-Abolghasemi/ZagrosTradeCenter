@@ -52,6 +52,9 @@ export default function Header() {
                             </NavDropdown>
                             <Nav.Link href="/cases/myCase" className="text-white">My case</Nav.Link>
                             <Nav.Link href="/favority/myFavority" className="text-white">My favority</Nav.Link>
+                            <NavDropdown title={<span className="text-white my-auto">History</span>} id="basic-nav-dropdown" data-bs-theme="dark">
+                                <NavDropdown.Item href="/history/mySession" className="text-white">My session</NavDropdown.Item>
+                            </NavDropdown>
                             <Nav.Link href="/" onClick={logout} className="text-white">Logout</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
