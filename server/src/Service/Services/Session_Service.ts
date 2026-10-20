@@ -15,6 +15,7 @@ export class Session_Service implements ISession_Service<Session_Model, Session_
     async Add(newSession: Session_Model): Promise<boolean> {
         let result: boolean = false;
         newSession._id = new ObjectId();
+        newSession.caseId = new ObjectId(newSession.caseId);
         await this.objSession.Add(newSession).then(res => result = res);
 
         return result;

@@ -16,7 +16,7 @@ routers.post("/delete", objAuthorization.UserOnly, deleted);
 //************************************************************ */
 
 async function add(req: Request, res: Response): Promise<void> {
-    objSession_Service.Add(req.body).then(val => res.send(val));
+    await objSession_Service.Add(req.body).then(val => res.send(val));
 }
 
 async function getByEmail(req: Request, res: Response): Promise<void> {
