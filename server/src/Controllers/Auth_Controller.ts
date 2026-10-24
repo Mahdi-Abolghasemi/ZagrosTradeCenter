@@ -14,6 +14,9 @@ routers.post("/registration", registration);
 routers.post("/getProfile", objAuthorization.UserOnly, getProfile);
 routers.put("/editProfile", objAuthorization.UserOnly, editProfile);
 routers.put("/changePassword", objAuthorization.UserOnly, changePassword);
+routers.put("/changeAdminPassword", objAuthorization.AdminOnly, changeAdminPassword);
+routers.post("/getAdminProfile", objAuthorization.AdminOnly, getAdminProfile);
+routers.put("/editAdminProfile", objAuthorization.AdminOnly, editAdminProfile);
 
 //******************************************************************* */
 
@@ -35,6 +38,18 @@ async function editProfile(req: Request, res: Response): Promise<void> {
 
 async function changePassword(req: Request, res: Response): Promise<void> {
     await objAuth.ChangePassword(req.body.email, req.body.oldPassword, req.body.newPassword).then(val => res.send(val));
+}
+
+async function changeAdminPassword(req: Request, res: Response): Promise<void> {
+    await objAuth.ChangeAdminPassword(req.body.email, req.body.oldPassword, req.body.newPassword).then(val => res.send(val));
+}
+
+async function getAdminProfile(req: Request, res: Response): Promise<void> {
+    await objAuth.GetAdminProfile(req.body.email, ReturnType_Enum.CustomData).then(val => res.send(val));
+}
+
+async function editAdminProfile(req: Request, res: Response): Promise<void> {
+    await objAuth.EditAdminProfile(req.body).then(val => res.send(val));
 }
 
 export default routers;

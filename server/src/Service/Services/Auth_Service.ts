@@ -85,4 +85,33 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
 
         return result;
     }
+
+    async ChangeAdminPassword(email: string, oldPassword: string, newPassword: string): Promise<boolean> {
+        let result: boolean = false;
+        let user: Auth_Model = <Auth_Model>{};
+        await this.GetAdminProfile(email, ReturnType_Enum.FullData).then(res => user = res);
+
+        let hashOldPassword: string = await createHash('sha256').update(oldPassword).digest('base64');
+
+        if (user.password === hashOldPassword) {
+            let hashNewPassword: string = await createHash('sha256').update(newPassword).digest('base64');
+            await this.objAuth.ChangeAdminPassword(email, hashNewPassword).then(res => result = res);
+        }
+
+        return result;
+    }
+
+    async GetAdminProfile(email: string, returnType: string): Promise<Auth_Model> {
+        let user: Auth_Model = <Auth_Model>{};
+        await this.objAuth.GetAdminProfile(email, returnType).then(res => user = res);
+
+        return user;
+    }
+
+    async EditAdminProfile(profile: Auth_Model): Promise<boolean> {
+        let result: boolean = false;
+        await this.objAuth.EditAdminProfile(profile).then(res => result = res);
+
+        return result;
+    }
 }

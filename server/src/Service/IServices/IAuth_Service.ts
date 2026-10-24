@@ -4,4 +4,7 @@ export interface IAuth_Services<T, U> {
     GetProfile(email: string, returnType: string): Promise<T>;
     EditProfile(profile: T): Promise<boolean>;
     ChangePassword(email: string, oldPassword: string, newPassword: string): Promise<boolean>;
+    ChangeAdminPassword(email: string, oldPassword: string, newPassword: string): Promise<boolean>;
+    GetAdminProfile(email: string, returnType: string): Promise<T>;
+    EditAdminProfile(profile: T): Promise<boolean>;
 }

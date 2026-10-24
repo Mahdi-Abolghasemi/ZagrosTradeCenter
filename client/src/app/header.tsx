@@ -49,6 +49,12 @@ export default function Header() {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
+                                <NavDropdown title={<span className="text-white my-auto">Profile</span>} id="basic-nav-dropdown" data-bs-theme="dark">
+                                    <NavDropdown.Item href="/auth/changePassword" className="text-white">Change password</NavDropdown.Item>
+                                    <NavDropdown.Item href="/auth/editProfile" className="text-white">
+                                        Edit profile
+                                    </NavDropdown.Item>
+                                </NavDropdown>
                                 <Nav.Link href="/" onClick={logout} className="text-white">Logout</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>

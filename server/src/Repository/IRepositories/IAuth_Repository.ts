@@ -4,4 +4,7 @@ export interface IAuth_Repository<T> {
     GetProfile(email: string, returnType: string): Promise<T>;
     EditProfile(profile: T): Promise<boolean>;
     ChangePassword(email: string, hashNewPass: string): Promise<boolean>;
+    ChangeAdminPassword(email: string, hashNewPass: string): Promise<boolean>;
+    GetAdminProfile(email: string, returnType: string): Promise<T>;
+    EditAdminProfile(profile: T): Promise<boolean>;
 }

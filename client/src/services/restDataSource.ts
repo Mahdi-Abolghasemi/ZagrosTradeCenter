@@ -24,9 +24,9 @@ export class restDataSource<T, U> {
         return result;
     }
 
-    async ChangePassword(_data: T): Promise<boolean> {
+    async ChangePassword(_data: T, actionName: string): Promise<boolean> {
         let result: boolean = false;
-        await Axios.request({ method: "put", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + "changePassword", data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
+        await Axios.request({ method: "put", headers: !this.token ? {} : { Authorization: this.token }, url: this.url + actionName, data: _data }).then(res => result = res.data).catch((ex: unknown) => { console.log(`error is: ${ex}`) });
         return result;
     }
 
