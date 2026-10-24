@@ -15,6 +15,7 @@ export type AuthResult_type = {
     success: boolean,
     userName: string,
     token: string,
+    role: string
 }
 
 export type UserPassword_type = {

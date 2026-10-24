@@ -14,24 +14,26 @@ export class Auth_service {
     }
 
     async Register(inputData: Register_type): Promise<boolean> {
-        let result: AuthResult_type = <AuthResult_type>{ success: false, userName: "", token: "" };
+        let result: AuthResult_type = <AuthResult_type>{ success: false, userName: "", token: "", role: "" };
         await this.objRDS.Registration(inputData).then(res => result = res);
 
         if (result.success) {
             await this.cookie.set("TOKEN", result.token, { path: "/" });
             await this.cookie.set("USER_NAME", result.userName, { path: "/" });
+            await this.cookie.set("ROLE", result.role, { path: "/" });
         }
 
         return result.success;
     }
 
     async Login(inputData: Login_type): Promise<boolean> {
-        let result: AuthResult_type = <AuthResult_type>{ success: false, userName: "", token: "" };
+        let result: AuthResult_type = <AuthResult_type>{ success: false, userName: "", token: "", role: "" };
         await this.objRDS_Login.Login(inputData).then(res => result = res);
 
         if (result.success) {
             await this.cookie.set("TOKEN", result.token, { path: "/" });
             await this.cookie.set("USER_NAME", result.userName, { path: "/" });
+            await this.cookie.set("ROLE", result.role, { path: "/" });
         }
 
         return result.success;

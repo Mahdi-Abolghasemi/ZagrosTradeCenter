@@ -18,10 +18,12 @@ export class Auth_Result {
     public success: boolean;
     public userName: string;
     public token: string;
+    public role: string;
 
     constructor() {
         this.success = false;
         this.userName = "";
         this.token = "";
+        this.role = "";
     }
 }

@@ -23,6 +23,7 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
         if (user) {
             result.success = true;
             result.userName = user.email;
+            result.role = user.role;
             let role = user.role;
             result.token = await jwt.sign({ userName, role }, process.env.JWT_SECRET_KEY, { expiresIn: "1hr" });
         }
@@ -46,6 +47,7 @@ export class Auth_Service implements IAuth_Services<Auth_Model, Auth_Result> {
             if (repositoryResult) {
                 result.success = repositoryResult;
                 result.userName = profile.email;
+                result.role = profile.role;
                 let userName: string = profile.email;
                 let role: string = profile.role;
                 result.token = await jwt.sign({ userName, role }, process.env.JWT_SECRET_KEY, { expiresIn: "1hr" });

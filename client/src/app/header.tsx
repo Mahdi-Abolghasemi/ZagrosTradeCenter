@@ -6,15 +6,20 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { role_enum } from "@/enumrations/role_enum";
 
 export default function Header() {
     const cookie: Cookie = new Cookies();
     const router = useRouter();
     let token: string = cookie.get("TOKEN");
+    let role: string = cookie.get("ROLE");
 
     async function logout() {
         await cookie.remove("TOKEN", { path: "/" });
+        await cookie.remove("USER_NAME", { path: "/" });
+        await cookie.remove("ROLE", { path: "/" });
         token = "";
+        role = "";
         router.push("/");
     }
 
@@ -36,30 +41,47 @@ export default function Header() {
         );
     }
     else {
-        return (
-            <Navbar expand="lg" bg="dark">
-                <Container>
-                    <Navbar.Brand href="/" className="text-white">Zagros Trade Center</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link href="/cases" className="text-white">List of case</Nav.Link>
-                            <NavDropdown title={<span className="text-white my-auto">Profile</span>} id="basic-nav-dropdown" data-bs-theme="dark">
-                                <NavDropdown.Item href="/auth/changePassword" className="text-white">Change password</NavDropdown.Item>
-                                <NavDropdown.Item href="/auth/editProfile" className="text-white">
-                                    Edit profile
-                                </NavDropdown.Item>
-                            </NavDropdown>
-                            <Nav.Link href="/cases/myCase" className="text-white">My case</Nav.Link>
-                            <Nav.Link href="/favority/myFavority" className="text-white">My favority</Nav.Link>
-                            <NavDropdown title={<span className="text-white my-auto">History</span>} id="basic-nav-dropdown" data-bs-theme="dark">
-                                <NavDropdown.Item href="/history/mySession" className="text-white">My session</NavDropdown.Item>
-                            </NavDropdown>
-                            <Nav.Link href="/" onClick={logout} className="text-white">Logout</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-        );
+        if (role === role_enum.Admin) {
+            return (
+                <Navbar expand="lg" bg="dark">
+                    <Container>
+                        <Navbar.Brand href="/" className="text-white">Zagros Trade Center</Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="me-auto">
+                                <Nav.Link href="/" onClick={logout} className="text-white">Logout</Nav.Link>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+            );
+        }
+        else {
+            return (
+                <Navbar expand="lg" bg="dark">
+                    <Container>
+                        <Navbar.Brand href="/" className="text-white">Zagros Trade Center</Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="me-auto">
+                                <Nav.Link href="/cases" className="text-white">List of case</Nav.Link>
+                                <NavDropdown title={<span className="text-white my-auto">Profile</span>} id="basic-nav-dropdown" data-bs-theme="dark">
+                                    <NavDropdown.Item href="/auth/changePassword" className="text-white">Change password</NavDropdown.Item>
+                                    <NavDropdown.Item href="/auth/editProfile" className="text-white">
+                                        Edit profile
+                                    </NavDropdown.Item>
+                                </NavDropdown>
+                                <Nav.Link href="/cases/myCase" className="text-white">My case</Nav.Link>
+                                <Nav.Link href="/favority/myFavority" className="text-white">My favority</Nav.Link>
+                                <NavDropdown title={<span className="text-white my-auto">History</span>} id="basic-nav-dropdown" data-bs-theme="dark">
+                                    <NavDropdown.Item href="/history/mySession" className="text-white">My session</NavDropdown.Item>
+                                </NavDropdown>
+                                <Nav.Link href="/" onClick={logout} className="text-white">Logout</Nav.Link>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+            );
+        }
     }
 }
